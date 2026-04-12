@@ -3,7 +3,7 @@ import { LinkedList } from "./linkedList.js";
 export class HashMap {
   capacity = 16;
   loadFactor = 0.75;
-  items = 0;
+  #items = 0;
   #buckets = [];
 
   constructor() {
@@ -48,7 +48,7 @@ export class HashMap {
       storedItem.value = value;
     } else {
       bucket.append(item);
-      ++this.items;
+      ++this.#items;
     }
 
     // TODO: Implement growth logic
@@ -80,16 +80,33 @@ export class HashMap {
 
     if (itemFound) {
       bucket.removeAt(itemIndex);
-      --this.items;
+      --this.#items;
     }
 
     return itemFound;
   }
 
   length() {
-    return this.items;
+    return this.#items;
   }
-  clear() {}
+
+  clear() {
+    const measuredBuckets = this.#buckets.map((bucket) => [
+      bucket,
+      bucket.size(),
+    ]);
+
+    const filledBuckets = measuredBuckets.filter(([, size]) => size > 0);
+
+    filledBuckets.forEach(([bucket, size]) => {
+      while (size > 0) {
+        bucket.pop();
+        --this.#items;
+        --size;
+      }
+    });
+  }
+
   keys() {}
   values() {}
   entries() {}

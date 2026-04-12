@@ -255,12 +255,12 @@ describe("length method", () => {
   });
 
   it("Returns 0 if empty", () => {
-    expect(map.length()).toEqual(0);
+    expect(map.length()).toBe(0);
   });
 
   it("Returns updated length if a key is added", () => {
     map.set("ant", "tiny");
-    expect(map.length()).toEqual(1);
+    expect(map.length()).toBe(1);
   });
 
   it("Returns updated length if multiple keys are added", () => {
@@ -268,18 +268,18 @@ describe("length method", () => {
     map.set("giraffe", "tall");
     map.set("dog", "average");
     map.set("whale", "enormous");
-    expect(map.length()).toEqual(5);
+    expect(map.length()).toBe(5);
   });
 
   it("Returns updated length if a key is removed", () => {
     map.remove("whale");
-    expect(map.length()).toEqual(4);
+    expect(map.length()).toBe(4);
   });
 
   it("Returns updated length if multiple key are removed", () => {
     map.remove("elephant");
     map.remove("giraffe");
-    expect(map.length()).toEqual(2);
+    expect(map.length()).toBe(2);
   });
 });
 
@@ -287,6 +287,39 @@ describe("clear method", () => {
   it("clear method exists", () => {
     expect(Object.hasOwn(HashMap.prototype, "clear")).toBe(true);
     expect(typeof HashMap.prototype.clear).toBe("function");
+  });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Remove one entry from hash map", () => {
+    map.set("apple", "sweet");
+    expect(map.length()).toBe(1);
+    expect(map.has("apple")).toBe(true);
+
+    map.clear();
+
+    expect(map.length()).toBe(0);
+    expect(map.has("apple")).toBe(false);
+  });
+
+  it("Removes all entries from hash map", () => {
+    map.set("banana", "creamy");
+    map.set("cherry", "tart");
+    map.set("durian", "stingy");
+    expect(map.length()).toBe(3);
+    expect(map.has("banana")).toBe(true);
+    expect(map.has("cherry")).toBe(true);
+    expect(map.has("durian")).toBe(true);
+
+    map.clear();
+
+    expect(map.length()).toBe(0);
+    expect(map.has("banana")).toBe(false);
+    expect(map.has("cherry")).toBe(false);
+    expect(map.has("durian")).toBe(false);
   });
 });
 
