@@ -65,6 +65,27 @@ describe("hash method", () => {
   });
 });
 
+describe("getBucket method", () => {
+  it("getBucket method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "getBucket")).toBe(true);
+    expect(typeof HashMap.prototype.getBucket).toBe("function");
+  });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Throws RangeError for index below 0", () => {
+    expect(() => map.getBucket(-1)).toThrow(RangeError);
+  });
+
+  it("Throws RangeError for index at or above capacity", () => {
+    expect(() => map.getBucket(map.capacity)).toThrow(RangeError);
+    expect(() => map.getBucket(map.capacity + 1)).toThrow(RangeError);
+  });
+});
+
 describe("set method", () => {
   it("set method exists", () => {
     expect(Object.hasOwn(HashMap.prototype, "set")).toBe(true);

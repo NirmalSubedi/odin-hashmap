@@ -12,14 +12,6 @@ export class HashMap {
     }
   }
 
-  getBucket(hashCode) {
-    if (hashCode < 0 || hashCode >= this.#buckets.length) {
-      throw new Error("Trying to access index out of bounds");
-    }
-
-    return this.#buckets[hashCode];
-  }
-
   hash(key) {
     key = String(key);
     let hashCode = 0;
@@ -30,6 +22,14 @@ export class HashMap {
     }
 
     return hashCode;
+  }
+
+  getBucket(hashCode) {
+    if (hashCode < 0 || hashCode >= this.#buckets.length) {
+      throw new RangeError("Trying to access index out of bounds");
+    }
+
+    return this.#buckets[hashCode];
   }
 
   set(key, value) {
