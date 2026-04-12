@@ -248,6 +248,39 @@ describe("length method", () => {
     expect(Object.hasOwn(HashMap.prototype, "length")).toBe(true);
     expect(typeof HashMap.prototype.length).toBe("function");
   });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Returns 0 if empty", () => {
+    expect(map.length()).toEqual(0);
+  });
+
+  it("Returns updated length if a key is added", () => {
+    map.set("ant", "tiny");
+    expect(map.length()).toEqual(1);
+  });
+
+  it("Returns updated length if multiple keys are added", () => {
+    map.set("elephant", "big");
+    map.set("giraffe", "tall");
+    map.set("dog", "average");
+    map.set("whale", "enormous");
+    expect(map.length()).toEqual(5);
+  });
+
+  it("Returns updated length if a key is removed", () => {
+    map.remove("whale");
+    expect(map.length()).toEqual(4);
+  });
+
+  it("Returns updated length if multiple key are removed", () => {
+    map.remove("elephant");
+    map.remove("giraffe");
+    expect(map.length()).toEqual(2);
+  });
 });
 
 describe("clear method", () => {

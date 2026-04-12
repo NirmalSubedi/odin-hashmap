@@ -78,11 +78,17 @@ export class HashMap {
     const itemIndex = bucket.findIndex({ key });
     const itemFound = itemIndex >= 0;
 
-    if (itemFound) bucket.removeAt(itemIndex);
+    if (itemFound) {
+      bucket.removeAt(itemIndex);
+      --this.items;
+    }
 
     return itemFound;
   }
-  length() {}
+
+  length() {
+    return this.items;
+  }
   clear() {}
   keys() {}
   values() {}
