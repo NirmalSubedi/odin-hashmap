@@ -12,7 +12,7 @@ export class HashMap {
     }
   }
 
-  hash(key) {
+  hash(key = "") {
     key = String(key);
     let hashCode = 0;
 
@@ -32,13 +32,18 @@ export class HashMap {
     return this.#buckets[hashCode];
   }
 
-  set(key, value) {
+  #getStoredItem(item = {}, bucket = new LinkedList()) {
+    const itemIndex = bucket.findIndex(item);
+
+    return itemIndex >= 0 ? bucket.at(itemIndex) : null;
+  }
+
+  set(key = "", value) {
     const hashCode = this.hash(key);
     const bucket = this.getBucket(hashCode);
     const item = { key, value };
-    const itemIndex = bucket.findIndex(item);
 
-    const storedItem = itemIndex >= 0 ? bucket.at(itemIndex) : null;
+    const storedItem = this.#getStoredItem(item, bucket);
     if (storedItem && storedItem.key === key) {
       storedItem.value = value;
     } else {
@@ -46,10 +51,20 @@ export class HashMap {
       ++this.items;
     }
 
+    // TODO: Implement growth logic
+
     return this;
   }
 
-  get() {}
+  get(key = "") {
+    const hashCode = this.hash(key);
+    const bucket = this.getBucket(hashCode);
+    const item = { key, value: null };
+    const storedItem = this.#getStoredItem(item, bucket);
+
+    return storedItem ? storedItem.value : null;
+  }
+
   has() {}
   remove() {}
   length() {}

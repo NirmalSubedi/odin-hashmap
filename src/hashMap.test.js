@@ -84,6 +84,11 @@ describe("getBucket method", () => {
     expect(() => map.getBucket(map.capacity)).toThrow(RangeError);
     expect(() => map.getBucket(map.capacity + 1)).toThrow(RangeError);
   });
+
+  it("Does not throw for indices in bound", () => {
+    expect(() => map.getBucket(0)).not.toThrow(RangeError);
+    expect(() => map.getBucket(map.capacity - 1)).not.toThrow(RangeError);
+  });
 });
 
 describe("set method", () => {
@@ -143,6 +148,30 @@ describe("get method", () => {
   it("get method exists", () => {
     expect(Object.hasOwn(HashMap.prototype, "get")).toBe(true);
     expect(typeof HashMap.prototype.get).toBe("function");
+  });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Returns null if no key is found", () => {
+    expect(map.get("apple")).toBe(null);
+  });
+
+  it("Returns value assigned to key (1)", () => {
+    map.set("apple", "red");
+    expect(map.get("apple")).toBe("red");
+  });
+
+  it("Returns value assigned to key (2)", () => {
+    map.set("banana", "yellow");
+    expect(map.get("banana")).toBe("yellow");
+  });
+
+  it("Returns value assigned to key (3)", () => {
+    map.set("carrot", "orange");
+    expect(map.get("carrot")).toBe("orange");
   });
 });
 
