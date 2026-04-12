@@ -180,6 +180,38 @@ describe("has method", () => {
     expect(Object.hasOwn(HashMap.prototype, "has")).toBe(true);
     expect(typeof HashMap.prototype.has).toBe("function");
   });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Returns true if key is in hash map (1)", () => {
+    map.set("bird", "chirp");
+    expect(map.has("bird")).toBe(true);
+  });
+
+  it("Returns true if key is in hash map (2)", () => {
+    map.set("bee", "buzz");
+    expect(map.has("bee")).toBe(true);
+  });
+
+  it("Returns true if key is in hash map (3)", () => {
+    map.set("cat", "meow");
+    expect(map.has("cat")).toBe(true);
+  });
+
+  it("Returns false if key is not in hash map (1)", () => {
+    expect(map.has("dog")).toBe(false);
+  });
+
+  it("Returns false if key is not in hash map (2)", () => {
+    expect(map.has("ant")).toBe(false);
+  });
+
+  it("Returns false if key is not in hash map (3)", () => {
+    expect(map.has("mouse")).toBe(false);
+  });
 });
 
 describe("remove method", () => {

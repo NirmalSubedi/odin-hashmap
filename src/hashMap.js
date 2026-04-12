@@ -65,7 +65,13 @@ export class HashMap {
     return storedItem ? storedItem.value : null;
   }
 
-  has() {}
+  has(key = "") {
+    const hashCode = this.hash(key);
+    const bucket = this.getBucket(hashCode);
+    const storedItem = this.#getStoredItem({ key }, bucket);
+
+    return Boolean(storedItem);
+  }
   remove() {}
   length() {}
   clear() {}
