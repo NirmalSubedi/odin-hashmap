@@ -4,12 +4,20 @@ export class HashMap {
   capacity = 16;
   loadFactor = 0.75;
   items = 0;
-  buckets = [];
+  #buckets = [];
 
   constructor() {
     for (let i = 0; i < this.capacity; ++i) {
-      this.buckets.push(new LinkedList());
+      this.#buckets.push(new LinkedList());
     }
+  }
+
+  getBucket(hashCode) {
+    if (hashCode < 0 || hashCode >= this.#buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
+
+    return this.#buckets[hashCode];
   }
 
   hash(key) {
@@ -25,8 +33,8 @@ export class HashMap {
   }
 
   set(key, value) {
-    const bucketIndex = this.hash(key);
-    const bucket = this.buckets[bucketIndex];
+    const hashCode = this.hash(key);
+    const bucket = this.getBucket(hashCode);
     const item = { key, value };
     const itemIndex = bucket.findIndex(item);
 

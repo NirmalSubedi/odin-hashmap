@@ -79,8 +79,8 @@ describe("set method", () => {
   it("Assigns value to key", () => {
     map.set("hello", "there");
 
-    const bucket = map.hash("hello");
-    expect(map.buckets[bucket]).toEqual({
+    const hashCode = map.hash("hello");
+    expect(map.getBucket(hashCode)).toEqual({
       list: {
         value: { key: "hello", value: "there" },
         nextNode: null,
@@ -92,8 +92,8 @@ describe("set method", () => {
     map.set("hello", "there");
     map.set("hello", "world");
 
-    const bucket = map.hash("hello");
-    expect(map.buckets[bucket]).toEqual({
+    const hashCode = map.hash("hello");
+    expect(map.getBucket(hashCode)).toEqual({
       list: {
         value: { key: "hello", value: "world" },
         nextNode: null,
@@ -108,8 +108,8 @@ describe("set method", () => {
 
     map.set("Rama", 1);
     map.set("Sita", 2);
-    const bucket = map.hash("Rama");
-    expect(map.buckets[bucket]).toEqual({
+    const hashCode = map.hash("Rama");
+    expect(map.getBucket(hashCode)).toEqual({
       list: {
         value: { key: "Rama", value: 1 },
         nextNode: { value: { key: "Sita", value: 2 }, nextNode: null },
