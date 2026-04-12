@@ -32,7 +32,7 @@ export class HashMap {
     return this.#buckets[hashCode];
   }
 
-  #getStoredItem(item = {}, bucket = new LinkedList()) {
+  #getStoredItem(item = { key: null }, bucket = new LinkedList()) {
     const itemIndex = bucket.findIndex(item);
 
     return itemIndex >= 0 ? bucket.at(itemIndex) : null;
@@ -59,8 +59,7 @@ export class HashMap {
   get(key = "") {
     const hashCode = this.hash(key);
     const bucket = this.getBucket(hashCode);
-    const item = { key, value: null };
-    const storedItem = this.#getStoredItem(item, bucket);
+    const storedItem = this.#getStoredItem({ key }, bucket);
 
     return storedItem ? storedItem.value : null;
   }
@@ -72,7 +71,17 @@ export class HashMap {
 
     return Boolean(storedItem);
   }
-  remove() {}
+
+  remove(key = "") {
+    const hashCode = this.hash(key);
+    const bucket = this.getBucket(hashCode);
+    const itemIndex = bucket.findIndex({ key });
+    const itemFound = itemIndex >= 0;
+
+    if (itemFound) bucket.removeAt(itemIndex);
+
+    return itemFound;
+  }
   length() {}
   clear() {}
   keys() {}

@@ -219,6 +219,28 @@ describe("remove method", () => {
     expect(Object.hasOwn(HashMap.prototype, "remove")).toBe(true);
     expect(typeof HashMap.prototype.remove).toBe("function");
   });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Removes key if in hash map", () => {
+    map.set("dog", "bark");
+    expect(map.has("dog")).toBe(true);
+    map.remove("dog");
+    expect(map.has("dog")).toBe(false);
+  });
+
+  it("Returns true if key was removed", () => {
+    map.set("bee", "buzz");
+    expect(map.remove("bee")).toBe(true);
+  });
+
+  it("Returns false if key was not found", () => {
+    map.set("cat", "meow");
+    expect(map.remove("bat")).toBe(false);
+  });
 });
 
 describe("length method", () => {
