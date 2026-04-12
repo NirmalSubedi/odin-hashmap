@@ -12,7 +12,7 @@ export class LinkedList {
     return typeof value === "object" && value !== null;
   }
 
-  #areSimilarObjects(obj1, obj2) {
+  #hasSameKeys(obj1, obj2) {
     if (obj1 === obj2) return true;
 
     if (!(this.#isObject(obj1) && this.#isObject(obj2))) return false;
@@ -25,7 +25,7 @@ export class LinkedList {
       const k2 = keys2[i];
 
       if (this.#isObject(obj1[k1])) {
-        return this.#areSimilarObjects(obj1[k1], obj2[k2]);
+        return this.#hasSameKeys(obj1[k1], obj2[k2]);
       } else if (k1 !== k2) {
         return false;
       }
@@ -103,7 +103,7 @@ export class LinkedList {
       if (this.#isEmptyList() || !list) return false;
       if (list.value === searchValue) return true;
       if (this.#isObject(list.value) && this.#isObject(searchValue)) {
-        return this.#areSimilarObjects(searchValue, list.value);
+        return this.#hasSameKeys(searchValue, list.value);
       }
       return checkList(list.nextNode);
     };
@@ -121,7 +121,7 @@ export class LinkedList {
       if (
         this.#isObject(searchValue) &&
         this.#isObject(list.value) &&
-        this.#areSimilarObjects(searchValue, list.value)
+        this.#hasSameKeys(searchValue, list.value)
       ) {
         return currentIndex;
       }
