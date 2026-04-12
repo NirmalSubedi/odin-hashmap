@@ -1,0 +1,175 @@
+import { HashMap } from "./hashMap.js";
+
+describe("HashMap Constructor", () => {
+  it("HashMap Constructor exist", () => {
+    expect(HashMap).toBeDefined();
+  });
+
+  it("HashMap Constructor is a function", () => {
+    expect(typeof HashMap).toBe("function");
+  });
+});
+
+describe("hash method", () => {
+  it("hash method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "hash")).toBe(true);
+    expect(typeof HashMap.prototype.hash).toBe("function");
+  });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Accepts non-string keys", () => {
+    expect(() => map.hash("")).not.toThrow(Error);
+    expect(() => map.hash(1)).not.toThrow(Error);
+    expect(() => map.hash(1n)).not.toThrow(Error);
+    expect(() => map.hash(true)).not.toThrow(Error);
+    expect(() => map.hash(null)).not.toThrow(Error);
+    expect(() => map.hash(undefined)).not.toThrow(Error);
+    expect(() => map.hash({})).not.toThrow(Error);
+    expect(() => map.hash([])).not.toThrow(Error);
+    expect(() => map.hash(() => {})).not.toThrow(Error);
+  });
+
+  it("Returns a number type", () => {
+    expect(typeof map.hash("give number")).toBe("number");
+  });
+
+  it("Returns an integer", () => {
+    expect(Number.isInteger(map.hash("give integer"))).toBe(true);
+  });
+
+  it("Below capacity", () => {
+    expect(map.hash("apple banana carrot")).toBeLessThan(map.capacity);
+  });
+
+  it("Below max safe integer limit", () => {
+    expect(
+      map.hash("this is a long long long long long long string")
+    ).toBeLessThan(Number.MAX_SAFE_INTEGER);
+  });
+
+  it("Returns different hashes for string permutations", () => {
+    const string1 = "Sara";
+    const string2 = "aSra";
+    const string3 = "araS";
+    const string1Hash = map.hash(string1);
+    const string2Hash = map.hash(string2);
+    const string3Hash = map.hash(string3);
+
+    expect(string1Hash).not.toBe(string2Hash);
+    expect(string1Hash).not.toBe(string3Hash);
+    expect(string2Hash).not.toBe(string3Hash);
+  });
+});
+
+describe("set method", () => {
+  it("set method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "set")).toBe(true);
+    expect(typeof HashMap.prototype.set).toBe("function");
+  });
+
+  let map;
+  beforeEach(() => {
+    map = new HashMap();
+  });
+
+  it("Assigns value to key", () => {
+    map.set("hello", "there");
+
+    const bucket = map.hash("hello");
+    expect(map.buckets[bucket]).toEqual({
+      list: {
+        value: { key: "hello", value: "there" },
+        nextNode: null,
+      },
+    });
+  });
+
+  it("Updates value of same key to new value", () => {
+    map.set("hello", "there");
+    map.set("hello", "world");
+
+    const bucket = map.hash("hello");
+    expect(map.buckets[bucket]).toEqual({
+      list: {
+        value: { key: "hello", value: "world" },
+        nextNode: null,
+      },
+    });
+  });
+
+  it("Store separate values for same hash", () => {
+    const hash1 = map.hash("Rama");
+    const hash2 = map.hash("Sita");
+    expect(hash1).toEqual(hash2);
+
+    map.set("Rama", 1);
+    map.set("Sita", 2);
+    const bucket = map.hash("Rama");
+    expect(map.buckets[bucket]).toEqual({
+      list: {
+        value: { key: "Rama", value: 1 },
+        nextNode: { value: { key: "Sita", value: 2 }, nextNode: null },
+      },
+    });
+  });
+});
+
+describe("get method", () => {
+  it("get method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "get")).toBe(true);
+    expect(typeof HashMap.prototype.get).toBe("function");
+  });
+});
+
+describe("has method", () => {
+  it("has method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "has")).toBe(true);
+    expect(typeof HashMap.prototype.has).toBe("function");
+  });
+});
+
+describe("remove method", () => {
+  it("remove method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "remove")).toBe(true);
+    expect(typeof HashMap.prototype.remove).toBe("function");
+  });
+});
+
+describe("length method", () => {
+  it("length method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "length")).toBe(true);
+    expect(typeof HashMap.prototype.length).toBe("function");
+  });
+});
+
+describe("clear method", () => {
+  it("clear method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "clear")).toBe(true);
+    expect(typeof HashMap.prototype.clear).toBe("function");
+  });
+});
+
+describe("keys method", () => {
+  it("keys method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "keys")).toBe(true);
+    expect(typeof HashMap.prototype.keys).toBe("function");
+  });
+});
+
+describe("values method", () => {
+  it("values method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "values")).toBe(true);
+    expect(typeof HashMap.prototype.values).toBe("function");
+  });
+});
+
+describe("entries method", () => {
+  it("entries method exists", () => {
+    expect(Object.hasOwn(HashMap.prototype, "entries")).toBe(true);
+    expect(typeof HashMap.prototype.entries).toBe("function");
+  });
+});
