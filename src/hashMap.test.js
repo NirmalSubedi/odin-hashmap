@@ -365,6 +365,36 @@ describe("values method", () => {
     expect(Object.hasOwn(HashMap.prototype, "values")).toBe(true);
     expect(typeof HashMap.prototype.values).toBe("function");
   });
+
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+  });
+
+  it("Returns empty array on 0 entries", () => {
+    expect(map.values()).toEqual([]);
+  });
+
+  it("Returns value of a entry", () => {
+    map.set("ant", "tiny");
+    expect(map.values()).toEqual(["tiny"]);
+  });
+
+  it("Returns values of multiple entries", () => {
+    map.set("bear", "huge");
+    map.set("cat", "small");
+    expect(map.values().sort()).toEqual(["huge", "small", "tiny"]);
+  });
+
+  it("Returns correct values if a entry is removed", () => {
+    map.remove("ant");
+    expect(map.values().sort()).toEqual(["huge", "small"]);
+  });
+
+  it("Returns empty array if entires cleared", () => {
+    map.clear();
+    expect(map.values()).toEqual([]);
+  });
 });
 
 describe("entries method", () => {

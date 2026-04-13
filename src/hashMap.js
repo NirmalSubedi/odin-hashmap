@@ -125,6 +125,20 @@ export class HashMap {
 
     return keys;
   }
-  values() {}
+
+  values() {
+    const values = [];
+    const filledBuckets = this.#getFilledBuckets();
+
+    filledBuckets.forEach(([bucket, size]) => {
+      for (let i = 0; i < size; ++i) {
+        const item = bucket.at(i);
+        values.push(item.value);
+      }
+    });
+
+    return values;
+  }
+
   entries() {}
 }
