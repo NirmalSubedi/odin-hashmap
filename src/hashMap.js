@@ -140,5 +140,18 @@ export class HashMap {
     return values;
   }
 
-  entries() {}
+  entries() {
+    const entries = [];
+    const filledBuckets = this.#getFilledBuckets();
+
+    filledBuckets.forEach(([bucket, size]) => {
+      for (let i = 0; i < size; ++i) {
+        const item = bucket.at(i);
+        const entry = [item.key, item.value];
+        entries.push(entry);
+      }
+    });
+
+    return entries;
+  }
 }
