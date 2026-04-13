@@ -90,13 +90,18 @@ export class HashMap {
     return this.#items;
   }
 
-  clear() {
+  #getFilledBuckets() {
     const measuredBuckets = this.#buckets.map((bucket) => [
       bucket,
       bucket.size(),
     ]);
-
     const filledBuckets = measuredBuckets.filter(([, size]) => size > 0);
+
+    return filledBuckets;
+  }
+
+  clear() {
+    const filledBuckets = this.#getFilledBuckets();
 
     filledBuckets.forEach(([bucket, size]) => {
       while (size > 0) {
@@ -107,7 +112,19 @@ export class HashMap {
     });
   }
 
-  keys() {}
+  keys() {
+    const keys = [];
+    const filledBuckets = this.#getFilledBuckets();
+
+    filledBuckets.forEach(([bucket, size]) => {
+      for (let i = 0; i < size; ++i) {
+        const item = bucket.at(i);
+        keys.push(item.key);
+      }
+    });
+
+    return keys;
+  }
   values() {}
   entries() {}
 }
