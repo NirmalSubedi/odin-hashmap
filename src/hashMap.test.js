@@ -440,3 +440,133 @@ describe("entries method", () => {
     expect(map.entries()).toEqual([]);
   });
 });
+
+describe("hashmap growth", () => {
+  let map;
+  beforeAll(() => {
+    map = new HashMap();
+    map.set("apple", "red");
+    map.set("banana", "yellow");
+    map.set("carrot", "orange");
+    map.set("dog", "brown");
+    map.set("elephant", "gray");
+    map.set("frog", "green");
+    map.set("grape", "purple");
+    map.set("hat", "black");
+    map.set("ice cream", "white");
+    map.set("jacket", "blue");
+    map.set("kite", "pink");
+    map.set("lion", "golden");
+  });
+
+  it("Overwrites existing values of nodes", () => {
+    expect(map.length()).toBe(12);
+    expect(map.capacity).toBe(16);
+    map.set("lion", "meow");
+    expect(map.length()).toBe(12);
+    expect(map.capacity).toBe(16);
+  });
+
+  it("Capacity doubles after overloading", () => {
+    expect(map.capacity).toBe(16);
+    map.set("moon", "sliver");
+    expect(map.capacity).toBe(32);
+  });
+
+  it("Length only increased by one", () => {
+    expect(map.length()).toBe(13);
+  });
+
+  it("Overwrites existing values of nodes after resize", () => {
+    map.set("moon", "dust");
+    expect(map.get("lion")).toBe("meow");
+    map.set("lion", "roar");
+    expect(map.length()).toBe(13);
+    expect(map.get("moon")).toBe("dust");
+    expect(map.get("lion")).toBe("roar");
+  });
+
+  it("get method still works", () => {
+    expect(map.get("frog")).toBe("green");
+  });
+
+  it("has method still works", () => {
+    expect(map.has("kite")).toBe(true);
+  });
+
+  it("remove method still works", () => {
+    expect(map.length()).toBe(13);
+    expect(map.get("ice cream")).toBe("white");
+    expect(map.remove("ice cream")).toBe(true);
+    expect(map.get("ice cream")).toBe(null);
+    expect(map.length()).toBe(12);
+  });
+
+  it("length method still works", () => {
+    expect(map.length()).toBe(12);
+    map.set("rainbow", "colorful");
+    expect(map.length()).toBe(13);
+  });
+
+  it("values method still works", () => {
+    expect(map.values().sort()).toEqual([
+      "black",
+      "blue",
+      "brown",
+      "colorful",
+      "dust",
+      "gray",
+      "green",
+      "orange",
+      "pink",
+      "purple",
+      "red",
+      "roar",
+      "yellow",
+    ]);
+  });
+
+  it("keys method still works", () => {
+    expect(map.keys().sort()).toEqual([
+      "apple",
+      "banana",
+      "carrot",
+      "dog",
+      "elephant",
+      "frog",
+      "grape",
+      "hat",
+      "jacket",
+      "kite",
+      "lion",
+      "moon",
+      "rainbow",
+    ]);
+  });
+
+  it("entries method still works", () => {
+    expect(map.entries().sort()).toEqual([
+      ["apple", "red"],
+      ["banana", "yellow"],
+      ["carrot", "orange"],
+      ["dog", "brown"],
+      ["elephant", "gray"],
+      ["frog", "green"],
+      ["grape", "purple"],
+      ["hat", "black"],
+      ["jacket", "blue"],
+      ["kite", "pink"],
+      ["lion", "roar"],
+      ["moon", "dust"],
+      ["rainbow", "colorful"],
+    ]);
+  });
+
+  it("clear method still works", () => {
+    expect(map.length()).toBe(13);
+    expect(map.has("apple")).toBe(true);
+    map.clear();
+    expect(map.has("apple")).toBe(false);
+    expect(map.length()).toBe(0);
+  });
+});
