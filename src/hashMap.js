@@ -51,7 +51,21 @@ export class HashMap {
       ++this.#items;
     }
 
-    // TODO: Implement growth logic
+    const isOverLoaded = this.length() > this.capacity * this.loadFactor;
+    if (isOverLoaded) {
+      const oldEntries = this.entries();
+      this.capacity *= 2;
+
+      this.#buckets = [];
+      for (let i = 0; i < this.capacity; ++i) {
+        this.#buckets.push(new LinkedList());
+      }
+
+      this.#items = 0;
+      oldEntries.forEach(([key, value]) => {
+        this.set(key, value);
+      });
+    }
 
     return this;
   }
