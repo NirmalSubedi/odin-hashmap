@@ -17,21 +17,7 @@ export class LinkedList {
 
     if (!(this.#isObject(obj1) && this.#isObject(obj2))) return false;
 
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-
-    for (let i = 0; i < keys1.length; ++i) {
-      const k1 = keys1[i];
-      const k2 = keys2[i];
-
-      if (this.#isObject(obj1[k1])) {
-        return this.#hasSameKeys(obj1[k1], obj2[k2]);
-      } else if (k1 !== k2) {
-        return false;
-      }
-    }
-
-    return true;
+    return Boolean(obj1.key === obj2.key);
   }
 
   #isEmptyList() {
